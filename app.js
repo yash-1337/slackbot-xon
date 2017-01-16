@@ -5,7 +5,9 @@ var express = require('express');
 var bodyParser = require('body-parser');
 var app = express();
 var port = process.env.PORT || 1337;
-app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.urlencoded({
+    extended: true
+}));
 
 app.get('/', function (req, res) {
     res.status(200).send('Hello world!');
@@ -47,6 +49,14 @@ app.post('/shutdown', function (req, res, next) {
 
 var controller = Botkit.slackbot({
     debug: false
+});
+
+controller.spawn({
+    token: process.env.API_TOKEN
+}).startRTM(function (err) {
+    if (err) {
+        throw new Error(err);
+    }
 });
 
 
