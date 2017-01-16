@@ -26,7 +26,7 @@ app.post('/keepalive', function (req, res, next) {
     var http = require("http");
 
     alive = setInterval(function () {
-        http.get("http://team-bot.herokuapp.com/keepalive");
+        http.get("https://giphy-slackbot.herokuapp.com/keepalive");
     }, 299990);
 });
 
@@ -40,7 +40,7 @@ app.post('/shutdown', function (req, res, next) {
         text: "Jarvis will shutdown after a while."
     };
 
-    if (userName !== 'slackbot') {
+    if (userName !== 'giphy') {
         return res.status(200).json(botPayload);
     } else {
         return res.status(200).end();
@@ -60,33 +60,12 @@ controller.spawn({
 });
 
 
-controller.hears(['hello', 'hi'], ['direct_message', 'direct_mention', 'mention'], function (bot, message) {
-    bot.reply(message, "Hello.");
-});
 
-controller.hears(['Introduce yourself'], ['direct_message', 'direct_mention', 'mention'], function (bot, message) {
-    bot.reply(message, "I am X0N. I was created by Yash Patel.");
-});
-
-controller.hears(['How are you?'], ['direct_message', 'direct_mention', 'mention'], function (bot, message) {
-    bot.reply(message, "I\'m fine, thanks for asking!");
-});
-
-controller.hears(['How was your day?'], ['direct_message', 'direct_mention', 'mention'], function (bot, message) {
-    bot.reply(message, "It was great! What about you?");
-});
-
-controller.hears(['My day was', "It was"], ['direct_message', 'direct_mention', 'mention'], function (bot, message) {
-    bot.reply(message, "That\'s cool.");
-});
-
-controller.hears(['gif me: (.*)'], ['direct_message', 'direct_mention', 'mention'], function (bot, message) {
-    var query = message.match[1];
-    var fullUrl = "http://api.giphy.com/v1/gifs/search?q=" + query + "&api_key=dc6zaTOxFJmzC";
-    request(fullUrl, function (error, response, body){
-      var data = JSON.parse(body);
-      bot.reply(message, data);
+controller.hears([''], ['direct_message', 'direct_mention'], function (bot, message) {
+    var query = message.text;
+    var searchUrl = "http://api.giphy.com/v1/gifs/search?limit=1&rating=g&q=" + query + "&api_key=dc6zaTOxFJmzC";
+    request(searchUrl, function (error, response, body) {
+        var data = JSON.parse(body);
+        bot.reply(message, data.data[0].url);
     });
 });
-
-
