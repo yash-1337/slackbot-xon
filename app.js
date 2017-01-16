@@ -85,7 +85,7 @@ controller.hears(['gif me: (.*)'], ['direct_message', 'direct_mention', 'mention
     var fullUrl = "http://api.giphy.com/v1/gifs/search?q=" + query + "&api_key=dc6zaTOxFJmzC";
     request(fullUrl, function (error, response, body){
       var data = JSON.parse(body);
-      console.log(data);
+      bot.reply(message, data);
     });
 });
 
