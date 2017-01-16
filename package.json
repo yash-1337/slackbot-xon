@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/yash-1337/slackbot-xon#readme",
   "dependencies": {
-    "botkit": "^0.4.9"
+    "botkit": "^0.4.9",
+    "request": "^2.79.0"
   }
 }

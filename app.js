@@ -1,5 +1,5 @@
 var Botkit = require('./node_modules/botkit/lib/Botkit.js');
-
+var request = require("request");
 
 var express = require('express');
 var bodyParser = require('body-parser');
@@ -79,3 +79,14 @@ controller.hears(['How was your day?'], ['direct_message', 'direct_mention', 'me
 controller.hears(['My day was', "It was"], ['direct_message', 'direct_mention', 'mention'], function (bot, message) {
     bot.reply(message, "That\'s cool.");
 });
+
+controller.hears(['gif me: (.*)'], ['direct_message', 'direct_mention', 'mention'], function (bot, message) {
+    var query = message.match[1];
+    var fullUrl = "http://api.giphy.com/v1/gifs/search?q=" + query + "&api_key=dc6zaTOxFJmzC";
+    request(fullUrl, function (error, response, body){
+      var data = JSON.parse(body);
+      console.log(data);
+    });
+});
+
+
